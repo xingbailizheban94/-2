@@ -192,13 +192,18 @@ def main() -> None:
     all_threads = readers + writers
     
     # TODO: Start all threads
+    # 启动所有线程
+    for thread in all_threads:
+        thread.start()
 
-    
+
     # TODO: Wait for all threads to finish
-
+    # 等待所有线程完成
+    for thread in all_threads:
+        thread.join()
 
     # TODO: Print final message that simulation completed
-
+    print("\nSimulation completed!")
 
 if __name__ == "__main__":
     main()
