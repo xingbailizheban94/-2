@@ -207,3 +207,15 @@ def main() -> None:
 
 if __name__ == "__main__":
     main()
+
+# Readers-Writers Problem
+
+## Description
+##```bash
+#python readers_writers_starter.py
+#Features
+#Multiple readers can read simultaneously
+#Writers have exclusive access
+#No deadlock occurs
+#Result
+#The program runs successfully and satisfies all synchronization requirements.
