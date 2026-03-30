@@ -92,8 +92,17 @@ class ReadersWritersMonitor:
         4. Print a useful log message.
         """
         with self.condition:
+            self.waiting_writers += 1
+            print(f"Writer {writer_id} is waiting to write")
+
+            # 如果有读者在读或有写者在写，等待
+            while self.active_readers > 0 or self.active_writers > 0:
+                self.condition.wait()
+
+            self.waiting_writers -= 1
+            self.active_writers += 1
+            print(f"Writer {writer_id} starts writing. Active writers = {self.active_writers}")
             # TODO: Replace 'pass' with your logic
-            pass
 
     def end_write(self, writer_id: int) -> None:
         """
@@ -105,8 +114,13 @@ class ReadersWritersMonitor:
         3. Wake waiting threads.
         """
         with self.condition:
+            self.active_writers -= 1
+            print(f"Writer {writer_id} stops writing. Active writers = {self.active_writers}")
+
+            # 唤醒所有等待的线程（读者和写者）
+            self.condition.notify_all()
             # TODO: Replace 'pass' with your logic
-            pass
+
 
 # Donot Change this
 class Reader(threading.Thread):
