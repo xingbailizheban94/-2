@@ -54,10 +54,20 @@ class ReadersWritersMonitor:
         4. Print a useful log message.
         """
         with self.condition:
+            while self.active_writers > 0 or self.waiting_writers > 0:
+                print(f"Reader {reader_id} is waiting to read")
+                self.condition.wait()
+            self.active_readers += 1
+            print(f"Reader {reader_id} starts reading. Active readers = {self.active_readers}")
             # TODO: Replace 'pass' with your logic
-            pass
-
     def end_read(self, reader_id: int) -> None:
+        with self.condition:
+            self.active_readers -= 1
+            print(f"Reader {reader_id} stops reading. Active readers = {self.active_readers}")
+
+            # 如果这是最后一个读者，唤醒所有等待的线程
+            if self.active_readers == 0:
+                self.condition.notify_all()
         """
         Called after a reader finishes reading.
 
