@@ -76,9 +76,6 @@ class ReadersWritersMonitor:
         2. Print a useful log message.
         3. If this was the last reader, wake waiting threads.
         """
-        with self.condition:
-            # TODO: Replace 'pass' with your logic
-            pass
 
     def start_write(self, writer_id: int) -> None:
         """
